@@ -1,0 +1,57 @@
+AIM
+
+To containerize a Node.js application using Docker, push the image to Docker Hub, and deploy it in Kubernetes using Deployment and Service YAML files.
+
+PROCEDURE
+
+Navigate to the project directory:
+
+cd C:\Users\USER\OneDrive\Documents\video
+
+Build the Docker image:
+
+docker build -t video .
+
+Run the Docker container:
+
+docker run -p 3000:3000 -d video
+
+Login to Docker Hub:
+
+docker login -u urk24cs7126
+
+Tag the Docker image:
+
+docker tag video urk24cs7126/node-docker:1.0
+
+Push the image to Docker Hub:
+
+docker push urk24cs7126/node-docker:1.0
+
+Start Minikube cluster:
+
+minikube start
+
+Navigate to Kubernetes folder:
+
+cd k8s
+
+Create deployment YAML file:
+
+kubectl create deployment node-docker --image=urk24cs7151/node-docker:1.0 --dry-run=client -o yaml > deployment.yaml
+Apply deployment:
+kubectl apply -f deployment.yaml
+Create service YAML file:
+kubectl expose deployment node-docker --port=80 --target-port=3000 --type=LoadBalancer --dry-run=client -o yaml > service.yaml
+Apply service:
+kubectl apply -f service.yaml
+Verify resources:
+kubectl get deployments
+kubectl get services
+kubectl get pods
+kubectl get all
+Access the application:
+minikube service node-docker --url
+DESCRIPTION
+
+In this experiment, a Node.js application is containerized using Docker. The Docker image is built and pushed to Docker Hub for storage and reuse. Then, a Kubernetes cluster is started using Minikube. Deployment and Service YAML files are created and applied to deploy the application in the cluster. Finally, the application is exposed using a LoadBalancer service and accessed through a generated URL.
