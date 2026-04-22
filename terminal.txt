@@ -1,0 +1,12 @@
+cd C:\Users\USER\OneDrive\Documents\video
+
+docker build -t video .
+
+docker run -p 3000:3000 -d video
+
+docker login -u urk24cs7126
+
+docker tag video urk24cs7126/node-docker:1.0
+
+docker push urk24cs7126/node-docker:1.0
+minikube start
